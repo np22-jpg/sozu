@@ -21,3 +21,6 @@ tokio = { version = "1.40.0", features = ["net", "rt-multi-thread"] }
 
 sozu-command-lib = { path = "../command", version = "^1.0.5" }
 sozu-lib = { path = "../lib", version = "^1.0.5" }
+
+[lints.rust]
+unexpected_cfgs = { level = "allow", check-cfg = ['cfg(tarpaulin)'] }

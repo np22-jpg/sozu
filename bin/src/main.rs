@@ -138,6 +138,7 @@ fn main(args: Args) -> Result<(), MainError> {
 /// Bind each worker (including the main) process to a CPU core.
 /// Can bind multiple processes to a CPU core if there are more processes
 /// than CPU cores. Only works on Linux.
+#[allow(dead_code)]
 #[cfg(target_os = "linux")]
 fn set_workers_affinity(workers: &Vec<WorkerSession>) {
     let mut cpu_count = 0;
