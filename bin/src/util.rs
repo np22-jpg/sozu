@@ -142,6 +142,11 @@ pub unsafe fn get_executable_path() -> Result<String, UtilError> {
     ))
 }
 
+/// # Safety
+/// This function is marked as unsafe because:
+/// - It relies on Linux-specific `/proc/self/exe` symlink which may not always be available
+/// - The symlink could theoretically be modified between read_link and string conversion
+/// - String conversion from OsString assumes valid UTF-8 encoding
 #[cfg(target_os = "linux")]
 pub unsafe fn get_executable_path() -> Result<String, UtilError> {
     let path = read_link("/proc/self/exe")

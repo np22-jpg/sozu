@@ -314,12 +314,11 @@ impl BackendMap {
                 let conn = borrowed.try_connect();
 
                 conn.map(|tcp_stream| (backend.clone(), tcp_stream))
-                    .map_err(|e| {
+                    .inspect_err(|e| {
                         error!(
-                            "could not connect {} to {:?} using session {} ({} failures)",
-                            cluster_id, borrowed.address, sticky_session, borrowed.failures
+                            "could not connect {} to {:?} using session {} ({} failures): ({})",
+                            cluster_id, borrowed.address, sticky_session, borrowed.failures, e
                         );
-                        e
                     })
             });
 
@@ -383,7 +382,7 @@ impl BackendList {
                 &backend.backend_id,
                 backend.address,
                 backend.sticky_id.clone(),
-                backend.load_balancing_parameters.clone(),
+                backend.load_balancing_parameters,
                 backend.backup,
             );
             list.add_backend(backend);

@@ -43,10 +43,7 @@ pub struct HttpFrontend {
 
 impl From<HttpFrontend> for RequestHttpFrontend {
     fn from(val: HttpFrontend) -> Self {
-        let tags = match val.tags {
-            Some(tags) => tags,
-            None => BTreeMap::new(),
-        };
+        let tags = val.tags.unwrap_or_default();
         RequestHttpFrontend {
             cluster_id: val.cluster_id,
             address: val.address.into(),

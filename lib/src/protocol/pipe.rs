@@ -88,6 +88,7 @@ impl<Front: SocketHandler, L: ListenerHandler> Pipe<Front, L> {
     /// - frontend_event: EMPTY
     /// - backend_interest: READABLE | WRITABLE | HUP | ERROR
     /// - backend_event: EMPTY
+    ///
     /// Remember to set the events from the previous State!
     #[allow(clippy::too_many_arguments)]
     pub fn new(

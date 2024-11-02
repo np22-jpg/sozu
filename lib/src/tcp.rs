@@ -1120,7 +1120,7 @@ impl TcpListener {
             cluster_id: None,
             listener: None,
             token,
-            address: config.address.clone().into(),
+            address: config.address.into(),
             config,
             active: false,
             tags: BTreeMap::new(),
@@ -1139,7 +1139,7 @@ impl TcpListener {
         let mut listener = match tcp_listener {
             Some(listener) => listener,
             None => {
-                let address = self.config.address.clone().into();
+                let address = self.config.address.into();
                 server_bind(address).map_err(|e| ProxyError::BindToSocket(address, e))?
             }
         };
@@ -1377,7 +1377,7 @@ impl ProxyConfiguration for TcpProxy {
                 WorkerResponse::ok(message.id)
             }
             RequestType::RemoveListener(remove) => {
-                if !self.remove_listener(remove.address.clone().into()) {
+                if !self.remove_listener(remove.address.into()) {
                     WorkerResponse::error(
                         message.id,
                         format!("no TCP listener to remove at address {:?}", remove.address),
@@ -1518,7 +1518,7 @@ pub mod testing {
         buffer_size: usize,
         channel: ProxyChannel,
     ) -> anyhow::Result<()> {
-        let address = config.address.clone().into();
+        let address = config.address.into();
 
         let ServerParts {
             event_loop,
@@ -1625,17 +1625,17 @@ mod tests {
         let mut s2 = TcpStream::connect("127.0.0.1:1234").expect("could not connect");
 
         s1.write(&b"hello "[..])
-            .map_err(|e| {
+            .inspect_err(|e| {
+                error!("Error: {}", e);
                 TEST_FINISHED.store(true, Ordering::Relaxed);
-                e
             })
             .unwrap();
         println!("s1 sent");
 
         s2.write(&b"pouet pouet"[..])
-            .map_err(|e| {
+            .inspect_err(|e| {
+                error!("Error: {}", e);
                 TEST_FINISHED.store(true, Ordering::Relaxed);
-                e
             })
             .unwrap();
 
@@ -1643,18 +1643,18 @@ mod tests {
 
         let mut res = [0; 128];
         s1.write(&b"coucou"[..])
-            .map_err(|e| {
+            .inspect_err(|e| {
+                error!("Error: {}", e);
                 TEST_FINISHED.store(true, Ordering::Relaxed);
-                e
             })
             .unwrap();
 
         s3.shutdown(Shutdown::Both).unwrap();
         let sz2 = s2
             .read(&mut res[..])
-            .map_err(|e| {
+            .inspect_err(|e| {
+                error!("Error: {}", e);
                 TEST_FINISHED.store(true, Ordering::Relaxed);
-                e
             })
             .expect("could not read from socket");
         println!("s2 received {:?}", str::from_utf8(&res[..sz2]));
@@ -1662,9 +1662,9 @@ mod tests {
 
         let sz1 = s1
             .read(&mut res[..])
-            .map_err(|e| {
+            .inspect_err(|e| {
+                error!("Error: {}", e);
                 TEST_FINISHED.store(true, Ordering::Relaxed);
-                e
             })
             .expect("could not read from socket");
         println!(

@@ -723,7 +723,7 @@ impl HttpListener {
     pub fn new(config: HttpListenerConfig, token: Token) -> Result<HttpListener, ListenerError> {
         Ok(HttpListener {
             active: false,
-            address: config.address.clone().into(),
+            address: config.address.into(),
             answers: Rc::new(RefCell::new(
                 HttpAnswers::new(&config.http_answers)
                     .map_err(|(status, error)| ListenerError::TemplateParse(status, error))?,
@@ -744,7 +744,7 @@ impl HttpListener {
         if self.active {
             return Ok(self.token);
         }
-        let address: SocketAddr = self.config.address.clone().into();
+        let address: SocketAddr = self.config.address.into();
 
         let mut listener = match tcp_listener {
             Some(tcp_listener) => tcp_listener,
@@ -910,9 +910,9 @@ impl ProxyConfiguration for HttpProxy {
             return Err(AcceptError::RegisterError);
         }
 
-        let public_address: SocketAddr = match owned.config.public_address.clone() {
+        let public_address: SocketAddr = match owned.config.public_address {
             Some(pub_addr) => pub_addr.into(),
-            None => owned.config.address.clone().into(),
+            None => owned.config.address.into(),
         };
 
         let session = HttpSession::new(
@@ -992,7 +992,7 @@ pub mod testing {
         max_buffers: usize,
         buffer_size: usize,
     ) -> anyhow::Result<()> {
-        let address = config.address.clone().into();
+        let address = config.address.into();
 
         let ServerParts {
             event_loop,
@@ -1284,7 +1284,7 @@ mod tests {
         thread::spawn(move || {
             setup_test_logger!();
             let server =
-                Server::http(&format!("127.0.0.1:{port}")).expect("could not create server");
+                Server::http(format!("127.0.0.1:{port}")).expect("could not create server");
             info!("starting web server in port {}", port);
             barrier.wait();
 
@@ -1364,7 +1364,7 @@ mod tests {
 
         let address = SocketAddress::new_v4(127, 0, 0, 1, 1030);
 
-        let default_config = ListenerBuilder::new_http(address.clone())
+        let default_config = ListenerBuilder::new_http(address)
             .to_http(None)
             .expect("Could not create default HTTP listener config");
 

@@ -68,9 +68,8 @@ pub fn try_async(nb_backends: usize, nb_clients: usize, nb_requests: usize) -> S
             client.send();
         }
         for client in clients.iter_mut() {
-            match client.receive() {
-                Some(response) => println!("{response}"),
-                _ => {}
+            if let Some(response) = client.receive() {
+                println!("{response}")
             }
         }
     }
@@ -137,9 +136,8 @@ pub fn try_sync(nb_clients: usize, nb_requests: usize) -> State {
             backend.send(i);
         }
         for client in clients.iter_mut() {
-            match client.receive() {
-                Some(response) => println!("{response}"),
-                _ => {}
+            if let Some(response) = client.receive() {
+                println!("{response}")
             }
         }
     }
@@ -362,13 +360,13 @@ pub fn try_tls_endpoint() -> State {
     let mut worker = Worker::start_new_worker("TLS-ENDPOINT", config, &listeners, state);
 
     worker.send_proxy_request_type(RequestType::AddHttpsListener(
-        ListenerBuilder::new_https(front_address.clone())
+        ListenerBuilder::new_https(front_address)
             .to_tls(None)
             .unwrap(),
     ));
 
     worker.send_proxy_request_type(RequestType::ActivateListener(ActivateListener {
-        address: front_address.clone(),
+        address: front_address,
         proxy: ListenerType::Https.into(),
         from_scm: false,
     }));
@@ -380,7 +378,7 @@ pub fn try_tls_endpoint() -> State {
     let hostname = "localhost".to_string();
     worker.send_proxy_request_type(RequestType::AddHttpsFrontend(RequestHttpFrontend {
         hostname: hostname.to_owned(),
-        ..Worker::default_http_frontend("cluster_0", front_address.clone().into())
+        ..Worker::default_http_frontend("cluster_0", front_address.into())
     }));
 
     let certificate_and_key = CertificateAndKey {

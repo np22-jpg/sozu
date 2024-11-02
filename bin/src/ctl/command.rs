@@ -77,6 +77,7 @@ impl CommandManager {
         self.send_request_display_response(request, false)
     }
 
+    #[allow(clippy::too_many_arguments)]
     pub fn get_metrics(
         &mut self,
         list: bool,
