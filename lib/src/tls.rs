@@ -14,7 +14,7 @@ use std::{
 };
 
 use rustls::{
-    crypto::ring::sign::any_supported_type,
+    crypto::aws_lc_rs::sign::any_supported_type,
     pki_types::{CertificateDer, PrivateKeyDer},
     server::{ClientHello, ResolvesServerCert},
     sign::CertifiedKey,

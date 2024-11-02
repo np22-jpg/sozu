@@ -15,9 +15,10 @@ use mio::{
     unix::SourceFd,
     Interest, Registry, Token,
 };
+
 use rustls::{
     crypto::{
-        ring::{
+        aws_lc_rs::{
             self,
             cipher_suite::{
                 TLS13_AES_128_GCM_SHA256, TLS13_AES_256_GCM_SHA384, TLS13_CHACHA20_POLY1305_SHA256,
@@ -715,7 +716,7 @@ impl HttpsListener {
 
         let provider = CryptoProvider {
             cipher_suites: ciphers,
-            ..ring::default_provider()
+            ..aws_lc_rs::default_provider()
         };
 
         let mut server_config = RustlsServerConfig::builder_with_provider(provider.into())
@@ -1565,7 +1566,7 @@ mod tests {
         let address = SocketAddress::new_v4(127, 0, 0, 1, 1032);
         let resolver = Arc::new(MutexCertificateResolver::default());
 
-        let crypto_provider = Arc::new(ring::default_provider());
+        let crypto_provider = Arc::new(aws_lc_rs::default_provider());
 
         let server_config = RustlsServerConfig::builder_with_provider(crypto_provider)
             .with_protocol_versions(&[&rustls::version::TLS12, &rustls::version::TLS13])
