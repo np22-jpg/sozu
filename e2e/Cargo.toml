@@ -1,13 +1,18 @@
 [package]
 name = "sozu-e2e"
 version = "1.0.5"
-rust-version = "1.80.0"
+rust-version = "1.82.0"
 edition = "2021"
 
 [dependencies]
 futures = "^0.3.31"
 hyper = { version = "^0.14.28", features = ["client", "http1"] }
-hyper-rustls = { version = "^0.24.2", default-features = false, features = ["webpki-tokio", "http1", "tls12", "logging"] }
+hyper-rustls = { version = "^0.24.2", default-features = false, features = [
+  "webpki-tokio",
+  "http1",
+  "tls12",
+  "logging",
+] }
 libc = "^0.2.159"
 mio = "^1.0.2"
 rustls = { version = "^0.21.10", features = ["dangerous_configuration"] }
