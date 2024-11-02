@@ -51,7 +51,7 @@ thiserror = "^1.0.64"
 time = "^0.3.36"
 
 sozu-command-lib = { path = "../command", version = "^1.0.5" }
-hpack = "0.3.0"
+loona-hpack = "0.4.2"
 
 [dev-dependencies]
 quickcheck = "^1.0.3"

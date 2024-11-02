@@ -192,7 +192,7 @@ dependencies = [
  "itertools 0.12.1",
  "lazy_static",
  "lazycell",
- "log 0.4.22",
+ "log",
  "prettyplease",
  "proc-macro2",
  "quote",
@@ -481,7 +481,7 @@ version = "0.8.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a19187fea3ac7e84da7dacf48de0c45d63c6a76f9490dae389aead16c243fce3"
 dependencies = [
- "log 0.4.22",
+ "log",
  "regex",
 ]
 
@@ -711,15 +711,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "hpack"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1c68f61350ad23817dd207b035b5258d91ac5eaef69e96f906628aaed8854dda"
-dependencies = [
- "log 0.3.9",
-]
-
-[[package]]
 name = "http"
 version = "0.2.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -785,7 +776,7 @@ dependencies = [
  "futures-util",
  "http",
  "hyper",
- "log 0.4.22",
+ "log",
  "rustls 0.21.12",
  "tokio",
  "tokio-rustls",
@@ -1074,18 +1065,19 @@ dependencies = [
 
 [[package]]
 name = "log"
-version = "0.3.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e19e8d5c34a3e0e2223db8e060f9e8264aeeb5c5fc64a4ee9965c062211c024b"
-dependencies = [
- "log 0.4.22",
-]
-
-[[package]]
-name = "log"
 version = "0.4.22"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
+
+[[package]]
+name = "loona-hpack"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3dd57fac737f493ec5a0085cfef6fe67ed4aa487bdb8325aadbb06a50e7a9470"
+dependencies = [
+ "thiserror",
+ "tracing",
+]
 
 [[package]]
 name = "memchr"
@@ -1125,7 +1117,7 @@ checksum = "80e04d1dcff3aae0704555fe5fee3bcfaf3d1fdf8a7e521d5b9d2b42acb52cec"
 dependencies = [
  "hermit-abi 0.3.9",
  "libc",
- "log 0.4.22",
+ "log",
  "wasi",
  "windows-sys 0.52.0",
 ]
@@ -1398,7 +1390,7 @@ dependencies = [
  "bytes",
  "heck",
  "itertools 0.13.0",
- "log 0.4.22",
+ "log",
  "multimap",
  "once_cell",
  "petgraph",
@@ -1439,7 +1431,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "588f6378e4dd99458b60ec275b4477add41ce4fa9f64dcba6f15adccb19b50d6"
 dependencies = [
  "env_logger",
- "log 0.4.22",
+ "log",
  "rand",
 ]
 
@@ -1592,7 +1584,7 @@ version = "0.21.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3f56a14d1f48b391359b22f731fd4bd7e43c97f3c50eee276f3aa09c94784d3e"
 dependencies = [
- "log 0.4.22",
+ "log",
  "ring",
  "rustls-webpki 0.101.7",
  "sct",
@@ -1605,7 +1597,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "eee87ff5d9b36712a58574e12e9f0ea80f915a5b0ac518d322b24a465617925e"
 dependencies = [
  "aws-lc-rs",
- "log 0.4.22",
+ "log",
  "once_cell",
  "rustls-pki-types",
  "rustls-webpki 0.102.8",
@@ -1752,7 +1744,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4b4b487fe2acf240a021cf57c6b2b4903b1e78ca0ecd862a71b71d2a51fed77d"
 dependencies = [
  "futures",
- "log 0.4.22",
+ "log",
  "once_cell",
  "parking_lot",
  "scc",
@@ -1819,7 +1811,7 @@ dependencies = [
  "clap",
  "jemallocator",
  "libc",
- "log 0.4.22",
+ "log",
  "mio",
  "nix",
  "nom",
@@ -1841,7 +1833,7 @@ version = "1.0.5"
 dependencies = [
  "hex",
  "libc",
- "log 0.4.22",
+ "log",
  "memchr",
  "mio",
  "nix",
@@ -1887,10 +1879,10 @@ dependencies = [
  "cookie-factory",
  "hdrhistogram",
  "hex",
- "hpack",
  "idna",
  "kawa",
  "libc",
+ "loona-hpack",
  "memchr",
  "mio",
  "nom",
@@ -2064,7 +2056,7 @@ dependencies = [
  "ascii",
  "chunked_transfer",
  "httpdate",
- "log 0.4.22",
+ "log",
 ]
 
 [[package]]
@@ -2148,7 +2140,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c3523ab5a71916ccf420eebdf5521fcef02141234bbc0b8a49f2fdc4544364ef"
 dependencies = [
  "pin-project-lite",
+ "tracing-attributes",
  "tracing-core",
+]
+
+[[package]]
+name = "tracing-attributes"
+version = "0.1.27"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "34704c8d6ebcbc939824180af020566b01a7c01f80641264eba0999f6c2b6be7"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.87",
 ]
 
 [[package]]

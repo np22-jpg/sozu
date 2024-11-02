@@ -3,7 +3,7 @@ use std::{
     str::from_utf8,
 };
 
-use hpack::Decoder;
+use loona_hpack::Decoder;
 
 use super::{
     parser,
