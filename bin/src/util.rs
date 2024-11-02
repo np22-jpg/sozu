@@ -1,6 +1,7 @@
 use std::{
+    env,
     ffi::OsString,
-    fs::{read_link, File},
+    fs::File,
     io::{Error as IoError, Write},
     os::unix::io::RawFd,
     path::PathBuf,
@@ -142,27 +143,16 @@ pub unsafe fn get_executable_path() -> Result<String, UtilError> {
     ))
 }
 
-/// # Safety
-/// This function is marked as unsafe because:
-/// - It relies on Linux-specific `/proc/self/exe` symlink which may not always be available
-/// - The symlink could theoretically be modified between read_link and string conversion
-/// - String conversion from OsString assumes valid UTF-8 encoding
 #[cfg(target_os = "linux")]
-pub unsafe fn get_executable_path() -> Result<String, UtilError> {
-    let path = read_link("/proc/self/exe")
-        .map_err(|io_err| UtilError::Read("/proc/self/exe".to_string(), io_err))?;
+pub fn get_executable_path() -> Result<String, UtilError> {
+    let path = env::current_exe()
+        .map_err(|io_err| UtilError::Read("current executable".to_string(), io_err))?;
 
-    let mut path_str = path
+    let path_str = path
         .clone()
         .into_os_string()
         .into_string()
         .map_err(|string_err| UtilError::OsString(path, string_err))?;
-
-    if path_str.ends_with(" (deleted)") {
-        // The kernel appends " (deleted)" to the symlink when the original executable has been replaced
-        let len = path_str.len();
-        path_str.truncate(len - 10)
-    }
 
     Ok(path_str)
 }
@@ -174,7 +164,7 @@ extern "C" {
 
 #[cfg(target_os = "macos")]
 pub unsafe fn get_executable_path() -> Result<String, UtilError> {
-    let path = std::env::current_exe().map_err(|io_err| UtilError::CurrentExe(io_err))?;
+    let path = env::current_exe().map_err(|io_err| UtilError::CurrentExe(io_err))?;
 
     Ok(path.to_string_lossy().to_string())
 }

@@ -247,8 +247,7 @@ impl CommandHub {
             next_worker_id,
         } = upgrade_data;
 
-        let executable_path =
-            unsafe { get_executable_path().map_err(HubError::GetExecutablePath)? };
+        let executable_path = { get_executable_path().map_err(HubError::GetExecutablePath)? };
 
         let unix_listener = unsafe { UnixListener::from_raw_fd(command_socket_fd) };
 

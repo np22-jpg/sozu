@@ -68,7 +68,7 @@ pub fn begin_main_process(args: &Args) -> Result<(), StartError> {
 
     update_process_limits(&config)?;
 
-    let executable_path = unsafe { get_executable_path().map_err(StartError::GetExecutablePath)? };
+    let executable_path = { get_executable_path().map_err(StartError::GetExecutablePath)? };
 
     let command_socket_path = config
         .command_socket_path()
