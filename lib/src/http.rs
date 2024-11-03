@@ -1153,7 +1153,7 @@ mod tests {
             let r = client.read(&mut buffer[index..]);
             println!("http client read: {r:?}");
             match r {
-                Err(e) => assert!(false, "client request should not fail. Error: {e:?}"),
+                Err(e) => unreachable!("client request should not fail. Error: {e:?}"),
                 Ok(sz) => {
                     index += sz;
                 }
@@ -1237,7 +1237,7 @@ mod tests {
             let r = client.read(&mut buffer[index..]);
             println!("http client read: {r:?}");
             match r {
-                Err(e) => assert!(false, "client request should not fail. Error: {e:?}"),
+                Err(e) => unreachable!("client request should not fail. Error: {e:?}"),
                 Ok(sz) => {
                     index += sz;
                 }
@@ -1266,7 +1266,7 @@ mod tests {
             let r2 = client.read(&mut buffer2[index..]);
             println!("http client read: {r2:?}");
             match r2 {
-                Err(e) => assert!(false, "client request should not fail. Error: {e:?}"),
+                Err(e) => unreachable!("client request should not fail. Error: {e:?}"),
                 Ok(sz) => {
                     index += sz;
                 }

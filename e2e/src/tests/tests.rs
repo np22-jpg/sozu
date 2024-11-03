@@ -1325,8 +1325,7 @@ fn try_max_connections() -> State {
         clients.push(client);
     }
 
-    for i in 0..20 {
-        let client = &mut clients[i];
+    for (i, client) in clients.iter_mut().enumerate().take(20) {
         if i < 15 {
             client.send();
             let request = backend.receive(i);
@@ -1374,8 +1373,7 @@ fn try_max_connections() -> State {
         backend.send(i);
         println!("request {i}: {request:?}");
     }
-    for i in 15..20 {
-        let client = &mut clients[i];
+    for (i, client) in clients.iter_mut().enumerate().take(20).skip(15) {
         client.is_connected();
         let response = client.receive();
         println!("response {i}: {response:?}");
@@ -1383,8 +1381,7 @@ fn try_max_connections() -> State {
         // assert!(response.unwrap().starts_with(&expected_response_start));
     }
 
-    for i in 15..20 {
-        let client = &mut clients[i];
+    for client in clients.iter_mut().take(20).skip(15) {
         client.is_connected();
         let response = client.receive();
         println!("response: {response:?}");
