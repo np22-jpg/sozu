@@ -285,7 +285,7 @@ pub fn fork_main_into_worker(
         }
         ForkResult::Child => {
             trace!("child({}):\twill spawn a child", unsafe { libc::getpid() });
-            Command::new(executable_path)
+            let _ = Command::new(executable_path)
                 .arg("worker")
                 .arg("--id")
                 .arg(worker_id)
