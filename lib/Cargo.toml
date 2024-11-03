@@ -49,9 +49,9 @@ slab = "^0.4.9"
 socket2 = { version = "^0.5.7", features = ["all"] }
 thiserror = "^1.0.64"
 time = "^0.3.36"
+loona-hpack = "0.4.3"
 
 sozu-command-lib = { path = "../command", version = "^1.0.5" }
-loona-hpack = "0.4.2"
 
 [dev-dependencies]
 quickcheck = "^1.0.3"
