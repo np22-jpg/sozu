@@ -66,9 +66,7 @@ jobs:
       - name: Install cargo-tarpaulin
         run: cargo install cargo-tarpaulin
       - name: Run cargo tarpaulin
-        run: cargo tarpaulin --coveralls $TOKEN
-        env:
-          TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+        run: cargo tarpaulin
   dockerhub:
     name: Docker build and push to Docker Hub
     runs-on: ubuntu-latest
